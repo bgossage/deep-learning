@@ -7,5 +7,5 @@
 **/*.pdf
 **/lib/*
 **/submit.m
-**/*data.txt
+**/*data*.txt
 
