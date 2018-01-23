@@ -19,13 +19,20 @@ grad = zeros(size(theta));
 %
 % Note: grad should have the same dimensions as theta
 %
+I = ones( size(y) );
 
+z = X * theta;
+h = sigmoid( z );
+L = log(z);
 
+S0 = -y' * L;
+S1 = (I - y)' * log(I - L);
 
+J = (S0 - S1) / m;
 
-
-
-
+%Compute the gradients...
+F = (z - y);
+grad = (X' * F) / m;
 
 % =============================================================
 
