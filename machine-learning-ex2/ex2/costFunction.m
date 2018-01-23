@@ -23,16 +23,16 @@ I = ones( size(y) );
 
 z = X * theta;
 h = sigmoid( z );
-L = log(z);
+L = log(h);
 
 S0 = -y' * L;
-S1 = (I - y)' * log(I - L);
+S1 = (I - y)' * log(I - h);
+
 
 J = (S0 - S1) / m;
 
 %Compute the gradients...
-F = (z - y);
-grad = (X' * F) / m;
+grad = (X' * (h-y)) / m;
 
 % =============================================================
 
