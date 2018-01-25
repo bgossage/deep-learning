@@ -16,7 +16,9 @@ p = zeros(m, 1);
 %
 
 
+y = X * theta;
 
+p = y >= 0.0;
 
 
 

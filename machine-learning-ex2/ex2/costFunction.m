@@ -23,9 +23,9 @@ I = ones( size(y) );
 
 z = X * theta;
 h = sigmoid( z );
-L = log(h);
 
-S0 = -y' * L;
+
+S0 = -y' * log(h);
 S1 = (I - y)' * log(I - h);
 
 

@@ -17,9 +17,30 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+I = ones( size(y) );
+
+% Compute the logistic hypothesis...
+z = X * theta;
+h = sigmoid( z );
 
 
+S0 = -y' * log(h);
+S1 = (I - y)' * log(I - h);
 
+% Compute the regularization term...
+theta_prime = theta';
+theta_prime(1)= 0.0;
+
+R = (theta_prime * theta) * lambda/(2.0*m);
+
+
+J = (S0 - S1) / m + R;
+
+%Compute the gradients...
+grad = (X' * (h-y)) / m .+ lambda/m * theta;
+
+xm = X( :,1 );
+grad(1) = (xm' * (h-y)) / m;
 
 
 % =============================================================
