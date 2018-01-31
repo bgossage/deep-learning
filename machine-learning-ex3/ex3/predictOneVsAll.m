@@ -30,20 +30,37 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+   probs = zeros( num_labels, 1 );
+   
+   index = 1;
+   value = 0.0;
+   
+for ex = 1:m
 
+% Logistic prediction for each possible label...
    for label = 1:num_labels
     
+   % Get the coefficients for the current label/class...
      theta = all_theta( label, : );
      
-     z = X * theta;
+   % Compute the probability that the example is from the current class...
+     z = X(ex,:) * theta';
      h = sigmoid( z );
   
+   % Store each probability...
+     probs(label) = h;
   
    endfor
+ 
+% Get the index of the most likely match...
+   [value, index] = max( probs );
 
+% Store the result in the ouput,
+   p(ex) = index;
+   
+endfor
 
-
-
+fprintf('prediction complete.\n');
 
 % =========================================================================
 
