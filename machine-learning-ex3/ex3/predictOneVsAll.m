@@ -31,6 +31,15 @@ X = [ones(m, 1) X];
 %       
 
 
+   for label = 1:num_labels
+    
+     theta = all_theta( label, : );
+     
+     z = X * theta;
+     h = sigmoid( z );
+  
+  
+   endfor
 
 
 
