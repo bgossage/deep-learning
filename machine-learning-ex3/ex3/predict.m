@@ -21,9 +21,36 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
+z2 = zeros( size(Theta2, 2) );
+z3 = zeros( num_labels );
 
+probs = zeros( num_labels, 1 );
+ 
+index = 1;
+value = 0.0;
+   
+for input = 1:m
 
+% Compute the hidden layer values...
+   z2 = Theta1 * X(input,:)';
+   a2 = [ 1; sigmoid(z2) ];
+   
+% Compute the output layer (hypothesis)...
+   z3 = Theta2 * a2;
+   h = sigmoid(z3);
+ 
+% Get the index of the most likely match...
+   [value, index] = max( h );
+
+% Store the result in the ouput,
+   p(input) = index;
+   
+endfor
+
+fprintf('prediction complete.\n');
 
 
 
