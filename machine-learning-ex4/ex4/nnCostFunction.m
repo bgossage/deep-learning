@@ -63,6 +63,8 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% Feed forward...
+y = predict( Theta1, Theta2, X );
 
 
 
