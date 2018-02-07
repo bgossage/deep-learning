@@ -38,6 +38,43 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+X = [ones(m, 1) X];
+I = ones( size(y) );
+
+labels = 1 : 10;
+
+% Add ones to the X data matrix
+Xp = [ones(m, 1) X];
+
+for ex = 1:m
+
+      
+   yp = labels == y(m);
+   
+% Feed forward to get the predicted label...
+% Compute the hidden layer values...
+   z2 = Theta1 * X(ex,:)';
+   a2 = [ 1; sigmoid(z2) ];
+   
+% Compute the output layer (hypothesis)...
+   z3 = Theta2 * a2;
+   h = sigmoid(z3);
+   
+   sum = 0.0;
+
+   for k = 1:num_labels
+      
+      sum += -yp(k) * log(h(k)) - (1.0 - yp(k)) * log(1.0 - h(k));
+
+   
+   endfor % k
+ 
+endfor % ex
+
+
+printf( "here we are" );
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -53,6 +90,9 @@ Theta2_grad = zeros(size(Theta2));
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -61,11 +101,6 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-% Feed forward...
-y = predict( Theta1, Theta2, X );
-
 
 
 
