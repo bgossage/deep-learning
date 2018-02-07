@@ -47,33 +47,31 @@ labels = 1 : 10;
 % Add ones to the X data matrix
 Xp = [ones(m, 1) X];
 
-for ex = 1:m
 
-      
-   yp = labels == y(m);
+for i = 1:m
+  
+  y_i = y(i);
+ 
+   yp = labels == y(i);
    
 % Feed forward to get the predicted label...
 % Compute the hidden layer values...
-   z2 = Theta1 * X(ex,:)';
+   z2 = Theta1 * X(i,:)';
    a2 = [ 1; sigmoid(z2) ];
    
 % Compute the output layer (hypothesis)...
    z3 = Theta2 * a2;
    h = sigmoid(z3);
-   
-   sum = 0.0;
 
    for k = 1:num_labels
       
-      sum += -yp(k) * log(h(k)) - (1.0 - yp(k)) * log(1.0 - h(k));
-
+      J += -yp(k) * log(h(k)) - (1.0 - yp(k)) * log(1.0 - h(k));
    
    endfor % k
  
 endfor % ex
 
-
-printf( "here we are" );
+J /= m;
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
