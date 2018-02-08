@@ -49,8 +49,6 @@ Xp = [ones(m, 1) X];
 
 
 for i = 1:m
-  
-  y_i = y(i);
  
    yp = labels == y(i);
    
