@@ -98,19 +98,12 @@ J /= m;
 %               and Theta2_grad from Part 2.
 %
 
+% Compute the sums of squares of each weight matrix except for the first col...
+Reg = sumsq(Theta1(:,2:end)(:)) + sumsq(Theta2(:,2:end)(:));
 
+Reg *= (lambda/(2.0*m));
 
-
-
-
-
-
-
-
-
-
-
-
+J += Reg
 
 
 % -------------------------------------------------------------
