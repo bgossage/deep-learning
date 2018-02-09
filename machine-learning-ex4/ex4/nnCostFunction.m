@@ -40,12 +40,8 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 X = [ones(m, 1) X];
-I = ones( size(y) );
 
 labels = 1 : 10;
-
-% Add ones to the X data matrix
-Xp = [ones(m, 1) X];
 
 
 for i = 1:m
@@ -67,7 +63,7 @@ for i = 1:m
    
    endfor % k
  
-endfor % ex
+endfor % i
 
 J /= m;
 
@@ -87,7 +83,48 @@ J /= m;
 %               over the training examples if you are implementing it for the 
 %               first time.
 
+delta_3 = zeros(num_labels,1);
+delta_2 = zeros(hidden_layer_size + 1,1);
 
+for t = 1:m
+ 
+   yp = labels == y(i);
+   
+ %      401x1
+   a1 = X(i,:)';
+   
+% Feed forward to get the predicted label...
+% Compute the hidden layer values...
+%       25x401   401x1
+   z2 = Theta1 * a1;
+%        26x1
+   a2 = [1; sigmoid(z2)];
+   
+% Compute the output layer (hypothesis)...
+%       10x26    26x1
+   z3 = Theta2 * a2;
+%        10x1
+   a3 = sigmoid(z3);
+
+   for k = 1:num_labels
+      
+      delta_3(k) = a3(k) - yp(k);
+   
+   endfor % k
+ 
+ %            26x10      10x1          26x1
+   delta_2 = (Theta2' * delta_3) .* [0;sigmoidGradient( z2 )];
+   
+% Remove delta_2(0)...
+   delta_2p = delta_2(2:end);
+   
+%                 25x401           25x1     1x401
+   Theta1_grad = Theta1_grad + delta_2p * a1';
+  
+%                  10x26        10x1     1x26
+   Theta2_grad = Theta2_grad + delta_3 * a2';
+ 
+endfor % i
 
 %
 % Part 3: Implement regularization with the cost function and gradients.
