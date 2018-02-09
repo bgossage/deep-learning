@@ -86,7 +86,7 @@ J /= m;
 delta_3 = zeros(num_labels,1);
 delta_2 = zeros(hidden_layer_size + 1,1);
 
-for t = 1:m
+for i = 1:m
  
    yp = labels == y(i);
    
@@ -113,16 +113,20 @@ for t = 1:m
    endfor % k
  
  %            26x10      10x1          26x1
-   delta_2 = (Theta2' * delta_3) .* [0;sigmoidGradient( z2 )];
+   grad_z2 = [1;sigmoidGradient( z2 )];
+   delta_2 = (Theta2' * delta_3) .* grad_z2;
    
 % Remove delta_2(0)...
-   delta_2p = delta_2(2:end);
+   delta_2 = delta_2(2:end);
    
 %                 25x401           25x1     1x401
-   Theta1_grad = Theta1_grad + delta_2p * a1';
+   Theta1_grad = Theta1_grad + delta_2 * a1';
+   Theta1_grad /= m;
   
 %                  10x26        10x1     1x26
    Theta2_grad = Theta2_grad + delta_3 * a2';
+   Theta2_grad /= m;
+
  
 endfor % i
 
