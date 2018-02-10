@@ -57,6 +57,7 @@ for i = 1:m
    z3 = Theta2 * a2;
    h = sigmoid(z3);
 
+% Add up the cost for each input...
    for k = 1:num_labels
       
       J += -yp(k) * log(h(k)) - (1.0 - yp(k)) * log(1.0 - h(k));
@@ -90,45 +91,49 @@ for i = 1:m
  
    yp = labels == y(i);
    
- %      401x1
+ % Get the input layer...
    a1 = X(i,:)';
    
 % Feed forward to get the predicted label...
 % Compute the hidden layer values...
-%       25x401   401x1
    z2 = Theta1 * a1;
-%        26x1
-   a2 = [1; sigmoid(z2)];
+   a2 = [1; sigmoid(z2)]; % Add a_2(0) (bias term)
    
 % Compute the output layer (hypothesis)...
-%       10x26    26x1
    z3 = Theta2 * a2;
-%        10x1
    a3 = sigmoid(z3);
 
+% Compute the deltas for the output layer...
    for k = 1:num_labels
       
       delta_3(k) = a3(k) - yp(k);
    
    endfor % k
  
- %            26x10      10x1          26x1
-   grad_z2 = [1;sigmoidGradient( z2 )];
+ % Compute the hidden layer deltas...
+   grad_z2 = [0;sigmoidGradient( z2 )];  % Add zero-column to be comformant.
    delta_2 = (Theta2' * delta_3) .* grad_z2;
    
-% Remove delta_2(0)...
+% Then remove delta_2(0)...
    delta_2 = delta_2(2:end);
    
-%                 25x401           25x1     1x401
+% Compute the gradients...
    Theta1_grad = Theta1_grad + delta_2 * a1';
-   Theta1_grad /= m;
-  
-%                  10x26        10x1     1x26
    Theta2_grad = Theta2_grad + delta_3 * a2';
-   Theta2_grad /= m;
-
  
 endfor % i
+
+Theta1_grad /= m;
+Theta2_grad /= m;
+
+% Regularize the wrt the gradient...
+Reg = [zeros(hidden_layer_size,1) Theta1(:,2:end)];
+Reg *= (lambda/m);
+Theta1_grad += Reg;
+
+Reg = [zeros(num_labels,1) Theta2(:,2:end)];
+Reg *= (lambda/m);
+Theta2_grad += Reg;
 
 %
 % Part 3: Implement regularization with the cost function and gradients.
