@@ -39,13 +39,27 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
+   lambda_cost = 0.0;
+   Jtrain = 0.0;
+   Jcval = 0.0;
 
-
-
-
-
-
-
+   for i = 1:length(lambda_vec)
+     
+      lambda = lambda_vec(i);
+       
+   % Train theta coefficients...
+      theta = trainLinearReg( X, y, lambda );
+       
+   % Compute the training and validation at current size i...
+      [Jtrain, grad] = linearRegCostFunction( X, y, theta, lambda_cost );
+      
+      [Jcval, grad] = linearRegCostFunction( Xval, yval, theta, lambda_cost );
+      
+   % Store the results...
+      error_train(i) = Jtrain;
+      error_val(i) = Jcval;
+           
+   endfor
 
 
 % =========================================================================

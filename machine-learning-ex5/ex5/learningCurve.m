@@ -53,10 +53,26 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+   lambda_cost = 0.0;
+   Jtrain = 0.0;
+   Jcval = 0.0;
 
-
-
-
+% Compute train/cross validation errors using training examples 1 to i...
+   for i = 1:m
+   
+   % Train theta coefficients...
+      theta = trainLinearReg( X(1:i, :), y(1:i), lambda );
+       
+   % Compute the training and validation at current size i...
+      [Jtrain, grad] = linearRegCostFunction( X(1:i, :), y(1:i), theta, lambda_cost );
+      
+      [Jcval, grad] = linearRegCostFunction( Xval, yval, theta, lambda_cost );
+      
+   % Store the results...
+      error_train(i) = Jtrain;
+      error_val(i) = Jcval;
+       
+   endfor
 
 
 % -------------------------------------------------------------
