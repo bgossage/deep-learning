@@ -25,22 +25,26 @@ sigma = 0.3;
 
 N = 8;
 
-Ctrials = linspace( 0.01, 20.0, N );
-SigmaTrials = linspace( 0.01, 1.0, N );
+Ctrials = [ 0.1, 1.0, 10, 15, 20, 30.0 ];
+SigmaTrials = [ 0.01, 0.1, 1.0, 2.0 ];
+
+errors = zeros( N*N );
 
 min_error = 100000.0;
 
 for c = Ctrials
   
   for s = SigmaTrials
-    fprintf('Trying C = %f , sigma = %f.\n', c, s );
+
     
-    model = svmTrain(Xval, yval, c, @(x1, x2) gaussianKernel(x1, x2, s));
+    model = svmTrain(X, y, c, @(x1, x2) gaussianKernel(x1, x2, s));
+    
     predictions = svmPredict(model, Xval);
     
+    %fprintf('For C = %f , sigma = %f, ', c, s );
     error = mean(double(predictions ~= yval));
     
-    fprintf( "error = %f\n", error );
+    %fprintf( "error = %f\n", error );
     
     if error < min_error
       
@@ -54,7 +58,7 @@ for c = Ctrials
   
 endfor
 
- fprintf('Best C = %f , sigma = %f.\n', C, sigma );
+% fprintf('Best C = %f , sigma = %f, error = %f\n', C, sigma, min_error );
 
 
 % =========================================================================
