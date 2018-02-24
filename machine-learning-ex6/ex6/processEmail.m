@@ -54,7 +54,7 @@ fprintf('\n==== Processed Email ====\n\n');
 % Process file
 l = 0;
 N = length(vocabList);
-index = uint64(1);
+
    
 while ~isempty(email_contents)
 
@@ -105,7 +105,7 @@ while ~isempty(email_contents)
       if( 1 == strcmp(word, str) )
       
          word_indices = [word_indices,k];
-         index++;
+
          break;
       
       endif
