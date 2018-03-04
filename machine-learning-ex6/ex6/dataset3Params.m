@@ -23,10 +23,42 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+N = 8;
 
+Ctrials = [ 0.1, 1.0, 10, 15, 20, 30.0 ];
+SigmaTrials = [ 0.01, 0.1, 1.0, 2.0 ];
 
+errors = zeros( N*N );
 
+min_error = 100000.0;
 
+for c = Ctrials
+  
+  for s = SigmaTrials
+
+    
+    model = svmTrain(X, y, c, @(x1, x2) gaussianKernel(x1, x2, s));
+    
+    predictions = svmPredict(model, Xval);
+    
+    %fprintf('For C = %f , sigma = %f, ', c, s );
+    error = mean(double(predictions ~= yval));
+    
+    %fprintf( "error = %f\n", error );
+    
+    if error < min_error
+      
+      min_error = error;
+      C = c;
+      sigma = s;
+      
+    endif
+    
+  endfor
+  
+endfor
+
+% fprintf('Best C = %f , sigma = %f, error = %f\n', C, sigma, min_error );
 
 
 % =========================================================================

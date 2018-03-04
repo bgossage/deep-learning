@@ -48,9 +48,17 @@ x = zeros(n, 1);
 %
 %
 
+y = word_indices > 0;
 
+M = length(y);
 
-
+for i = 1:M
+  
+  k = word_indices(i);
+  
+  x(k) = y(i);
+  
+endfor
 
 
 
