@@ -3,6 +3,7 @@
 # Git ignores the following
 
 **/*.zip
+**/*.mat
 **/*.pdf
 **/lib/*
 **/submit.m
