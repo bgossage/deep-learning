@@ -20,8 +20,29 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+[m,n] = size( X );
 
+min = realmax;
+index = 1
+distance  = 0.0;
 
+for i = 1:m
+  min = realmax;
+  for k = 1:K
+    
+    distance = norm( X(i,:) - centroids(k,:), 2 );
+    if distance < min
+      
+       min = distance;
+       index = k;
+    endif
+    
+  endfor
+  
+  idx(i) = index;
+  
+  
+endfor
 
 
 
