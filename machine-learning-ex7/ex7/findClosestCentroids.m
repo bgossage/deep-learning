@@ -23,7 +23,7 @@ idx = zeros(size(X,1), 1);
 [m,n] = size( X );
 
 min = realmax;
-index = 1
+index = 1;
 distance  = 0.0;
 
 for i = 1:m
